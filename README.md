@@ -43,9 +43,21 @@ Both servers can be used independently or together to enhance AI assistant capab
 
 ## Installation
 
+### Option 1: Direct Installation with uvx (Recommended)
+
+You can run the MCP servers directly from the GitHub repository using uvx:
+
+```bash
+uvx --from git+https://github.com/akaiserg/multi-mcp-servers.git mcp-server
+```
+
+This will install and run the MathCalculator MCP server directly without needing to clone the repository.
+
+### Option 2: Local Development Setup
+
 1. Clone this repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/akaiserg/multi-mcp-servers.git
 cd multi-mcp-servers
 ```
 
@@ -63,19 +75,41 @@ pip install -e .
 
 ### Running the MCP Servers
 
-#### LocalNotes Server
-To start the LocalNotes MCP server:
+#### Using uvx (Recommended)
+To run the MathCalculator MCP server directly from GitHub:
+```bash
+uvx --from git+https://github.com/akaiserg/multi-mcp-servers.git mcp-server
+```
+
+#### Local Development - Individual Servers
+To run specific servers locally during development:
+
+**LocalNotes Server:**
 ```bash
 python local.py
 ```
 
-#### ScreenShot Server
-To start the ScreenShot MCP server:
+**ScreenShot Server:**
 ```bash
 python screenshot.py
 ```
 
-Both servers will start and listen for MCP protocol communications on separate instances.
+**Crypto Server:**
+```bash
+python crypto.py
+```
+
+**Prompt Server:**
+```bash
+python prompt.py
+```
+
+**MathCalculator Server:**
+```bash
+python src/mcpserver/deployment.py
+```
+
+Each server will start and listen for MCP protocol communications on separate instances.
 
 ### Available Tools
 
@@ -125,7 +159,22 @@ Response: [Returns optimized JPEG image of the screen]
 Both servers can be integrated with any MCP-compatible client. Here are some examples:
 
 #### Claude Desktop Integration
-Add both servers to your Claude Desktop MCP configuration:
+
+**Option 1: Using uvx (Recommended)**
+Add the MCP server to your Claude Desktop configuration using uvx:
+```json
+{
+  "mcpServers": {
+    "math-calculator": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/akaiserg/multi-mcp-servers.git", "mcp-server"]
+    }
+  }
+}
+```
+
+**Option 2: Local Development Setup**
+Add servers to your Claude Desktop MCP configuration for local development:
 ```json
 {
   "mcpServers": {
@@ -136,6 +185,10 @@ Add both servers to your Claude Desktop MCP configuration:
     "screenshot": {
       "command": "python",
       "args": ["/path/to/your/project/screenshot.py"]
+    },
+    "math-calculator": {
+      "command": "python",
+      "args": ["/path/to/your/project/src/mcpserver/deployment.py"]
     }
   }
 }
